@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -29,6 +29,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
     <script>
         $(document).ready(function () {
+            $("#graphics").show();
             $("#admin_details").hide();
             $("#center_details").hide();
             $("#user_details").hide();
@@ -78,6 +79,7 @@
             });
            $("#admin").click(function(){
                 $("#admin_details").show();
+                $("#graphics").hide();
                 $("#center_details").hide();
                 $("#user_details").hide();
                 $("#slots_details").hide();
@@ -85,6 +87,7 @@
            });
            $("#center").click(function(){
                 $("#center_details").show();
+                $("#graphics").hide();
                 $("#admin_details").hide();
                 $("#user_details").hide();
                 $("#slots_details").hide();
@@ -92,6 +95,7 @@
            });
            $("#user").click(function(){
                 $("#user_details").show();
+                $("#graphics").hide();
                 $("#admin_details").hide();
                 $("#center_details").hide();
                 $("#slots_details").hide();
@@ -99,12 +103,14 @@
            });
            $("#slots").click(function(){
                 $("#slots_details").show();
+                $("#graphics").hide();
                 $("#admin_details").hide();
                 $("#center_details").hide();
                 $("#user_details").hide();
                 $("#time_details").hide();
            });
            $("#time").click(function(){
+                $("#graphics").hide();
                 $("#time_details").show();
                 $("#admin_details").hide();
                 $("#center_details").hide();
@@ -117,39 +123,49 @@
 </head>
 
 <body class="light">
-    <!-- Nav Bar Content -->
-    <nav class="navbar navbar-light">
-        <span class="mx-auto">
-            <h2>Welcome to Dashboard</h2>
-        </span>
-    </nav>
 
+<nav class="navbar navbar-expand-lg navbar-light bg-dark text-white">
+  <a class="navbar-brand text-white" >Welcome to Dashboard</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a id="admin" type="button">Admin Details</a>&nbsp;&nbsp;&nbsp;
+      </li>
+      <li class="nav-item">
+        <a id="center" type="button">Vaccination Center Details</a>&nbsp;&nbsp;&nbsp;
+      </li>
+      <li class="nav-item">
+        <a id="user"  type="button">User Details</a>&nbsp;&nbsp;&nbsp;
+      </li>
+        <li class="nav-item">
+            <a id="slots"  type="button">All Slots Details</a>&nbsp;&nbsp;&nbsp;
+        </li>
+        <li class="nav-item">
+            <a id="time" type="button">Slots Timing</a>&nbsp;&nbsp;&nbsp;
+        </li>
+        <li class="nav-item">
+        <a id="time" type="button">Slots Timing</a>&nbsp;&nbsp;&nbsp;
+        </li>
+      <li class="nav-item">
+        <a type="button" onclick="location.href='/logout'">Logout</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div id="graphics">
 
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end" style="margin-top:-65px; margin-right: 10px;">
-        <button class="btn btn-primary" type="button" onclick="location.href='/logout'">Logout</button>
-    </div>
+<p class="type">Covid Vaccination</p>
 
+<p class="type">To bring this pandemic to an end, a large share of the world needs to be immune to the virus. The safest way to achieve this is with a vaccine.Vaccines are a technology that humanity has often relied on in the past to bring down the death toll of infectious diseases.</p>
 
-    <br><br>
-    <center>
-        <div class="d-grid gap-2 d-md-flex justify-content-center">
-            <div>
-                <button id="admin" class="btn btn-primary" type="button">Admin Details</button>
-            </div>
-            <div>
-                <button id="center" class="btn btn-primary" type="button">Vaccination Center Details</button>
-            </div>
-            <div>
-                <button id="user" class="btn btn-primary" type="button">User Details</button>
-            </div>
-            <div>
-                <button id="slots" class="btn btn-primary" type="button">All Slots Details</button>
-            </div>
-            <div>
-                <button id="time" class="btn btn-primary" type="button">Slots Timing</button>
-            </div>
-        </div>
-    </center>
+<p class="type">Within less than 12 months after the beginning of the pandemic, several research teams rose to the challenge and developed vaccines that protect from SARS-CoV-2.</p>
+
+<p class="type">The challenge is to make these vaccines available to people around the world. It will be key that people in all countries — not just in rich countries — receive the required protection. To track this effort we at Our World in Data are building the international vaccination dataset that we make available on this page.</p>
+
+</div>
 
     <br><br>
     <div class="container" id="admin_details">
@@ -172,17 +188,15 @@
             </div>
 
             <div class="card-footer">
-                <h4>Results:</h4>
+                <h4>Results</h4>
                 <br>
-                <!-- Search form -->
+
                 <form id="search-form">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control search-input" placeholder="Search by name or email-id.">
                         <button type="button" class="btn btn-primary search-button">Search</button>
                     </div>
                 </form>
-
-                <!-- Display Table -->
                 <table class="table table-striped table-hover">
                     <thead class="table-dark">
                         <tr>
@@ -191,7 +205,7 @@
                             <th>Email-Id</th>
                             <th>Phone No</th>
                             <th>Remove Admin</th>
-                            <!-- Add more column headings as per your database structure -->
+
                         </tr>
                     </thead>
                     <tbody class="table-primary">
@@ -206,7 +220,7 @@
                                     <i class="fas fa-trash-alt"></i>
                                 </a>
                             </td>
-                            <!-- Add more columns as per your database structure -->
+
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -530,6 +544,124 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha384-KI0tF2X3Q61p0gFsKj/Ed8BjAm4bgk/jrLpgf8HzcmXlYB7H96q8I5tc+q5QKWDD"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.bundle.min.js"
+        integrity="sha384-RfwDRf2X4UCZB2jTRkoVjztbBA8OwrNniB/9J0ZUmfD8HDnL+hZ3wOIdV/OYLqy9"
+        crossorigin="anonymous"></script>
 </body>
+<style>
+     @keyframes letters {
+	 from {
+		 left: 0;
+	}
+	 to {
+		 left: 50ch;
+	}
+}
+ @keyframes lines {
+	 from {
+		 top: 0;
+	}
+	 to {
+		 top: 100%;
+	}
+}
+ @keyframes cursor-type {
+	 50% {
+		 border-color: #000;
+	}
+}
+ @keyframes cursor-wait {
+	 0% {
+		 box-shadow: inset 2px 0 0 0 rgba(0, 0, 0, 0);
+	}
+	 1% {
+		 box-shadow: inset 2px 0 0 0 rgba(0, 0, 0, 1);
+	}
+	 40% {
+		 box-shadow: inset 2px 0 0 0 rgba(0, 0, 0, 1);
+	}
+}
+ .type {
+	 position: relative;
+	 font-family: Consolas, Monaco, monospace;
+	 width: 50ch;
+	 line-height: 1.2;
+	 word-break: break-all;
+	 overflow: hidden;
+}
+ @supports (width: 1ch) {
+	 .type:before, .type:after {
+		 box-sizing: border-box;
+		 content: '';
+		 position: absolute;
+		 z-index: 1;
+		 display: block;
+		 height: 1.2em;
+		 width: 100%;
+		 background-color: #fff;
+	}
+	 .type:before {
+		 border-left: 2px solid transparent;
+		 top: 100%;
+		 animation-name: letters, lines, cursor-type, cursor-wait;
+		 animation-fill-mode: both, both, both, backwards;
+	}
+	 .type:after {
+		 content: '';
+		 height: 100%;
+		 top: 100%;
+		 left: 0;
+		 margin-top: 1.2em;
+	}
+}
+ .type:before {
+	 animation-duration: 1.4285714286s, 1.4285714286s, 0.0285714286s, 0.8s;
+	 animation-timing-function: steps(50, end), steps(1, end), step-end, ease-out;
+	 animation-iteration-count: 1, 1, 35, 2;
+	 animation-delay: 1.6s, 1.6s, 1.6s, 0s;
+}
+ .type:after {
+	 animation: lines 1.4285714286s steps(1, end) 1;
+	 animation-fill-mode: both;
+	 animation-delay: 1.6s;
+}
+ .type + .type:before {
+	 animation-duration: 1.4285714286s, 5.7142857143s, 0.0285714286s, 0.8s;
+	 animation-timing-function: steps(50, end), steps(4, end), step-end, ease-out;
+	 animation-iteration-count: 4, 1, 181, 2;
+	 animation-delay: 4.2s, 4.2s, 4.2s, 2.6s;
+}
+ .type + .type:after {
+	 animation: lines 5.7142857143s steps(4, end) 1;
+	 animation-fill-mode: both;
+	 animation-delay: 4.2s;
+}
+ .type + .type + .type:before {
+	 animation-duration: 1.4285714286s, 4.2857142857s, 0.0285714286s, 0.8s;
+	 animation-timing-function: steps(50, end), steps(3, end), step-end, ease-out;
+	 animation-iteration-count: 3, 1, 120, 2;
+	 animation-delay: 10.9714285714s, 10.9714285714s, 10.9714285714s, 9.3714285714s;
+}
+ .type + .type + .type:after {
+	 animation: lines 4.2857142857s steps(3, end) 1;
+	 animation-fill-mode: both;
+	 animation-delay: 10.9714285714s;
+}
+ .type + .type + .type + .type:before {
+	 animation-duration: 1.4285714286s, 7.1428571429s, 0.0285714286s, 0.8s;
+	 animation-timing-function: steps(50, end), steps(5, end), step-end, ease-out;
+	 animation-iteration-count: 5, 1, 215, 2;
+	 animation-delay: 16s, 16s, 16s, 14.4s;
+}
+ .type + .type + .type + .type:after {
+	 animation: lines 7.1428571429s steps(5, end) 1;
+	 animation-fill-mode: both;
+	 animation-delay: 16s;
+}
+
+</style>
 
 </html>
