@@ -32,10 +32,13 @@
     ● Database : Sqlite
 
 
+### Prerequisites
+
+    ● Python 3.9 or above
+
 ### Setup
 
-    ● Use an IDE (PyCharm preferred).
-    ● Open a New Project.
+
     ● Clone the github repo.
     ● Install the requirements.txt file
         $ pip install -r requirements.txt
@@ -45,4 +48,14 @@
         > $env:FLASK_DEBUG = "1"
         > flask run 
     ● Click the localhost URL appeared in the terminal.
+
+
+### Features
+
+     ● Admin and Users have separate login/logout.
+     ● Admin can add/view/remove vaccination centers.
+     ● Admin can view/remove the registered users.
+     ● Users can book a slot.
+     ● Users can view their booking history.
+     ● Both admin and users can search for a vaccination center/ working hours.
 
