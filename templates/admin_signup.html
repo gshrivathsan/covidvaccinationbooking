@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Vaccination-Booking</title>
+</head>
+
+<body>
+    <!-- Nav Bar Content -->
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+            Vaccination Booking
+        </a>
+    </nav>
+
+    <!-- Home Button -->
+    <div class="text-end mt-3">
+        <button class="btn btn-primary" type="button" onclick="location.href='/';">HOME</button>
+    </div>
+
+    <!-- Sign-Up Form -->
+    <div class="container mt-5" style="max-width: 400px;">
+        <div class="card">
+            <div class="card-header text-center">
+                <h2>Sign-Up Today!</h2>
+            </div>
+            <div class="card-body">
+                <form action="/admin/signup" method="POST" onsubmit="return validateForm()">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name:</label>
+                        <input type="text" class="form-control" id="name" name="name" required placeholder="Enter your Name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email" required placeholder="Enter your Email-Id">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password:</label>
+                        <input type="password" class="form-control" id="password" name="password" required placeholder="Enter password">
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">Confirm Password:</label>
+                        <input type="password" class="form-control" id="confirmPassword" required placeholder="Re-enter password">
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone:</label>
+                        <input type="number" class="form-control" id="phone" name="ph_no" required placeholder="Enter your Phone Number">
+                    </div>
+                    <div class="text-center">
+                        <span id="error" style="color: red;"></span>
+                        <br>
+                        <button type="submit" class="btn btn-primary">Sign-Up</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-muted text-center">
+                Already an existing Admin? <a href="/admin/login">Login as Admin Here!</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to validate the form
+        function validateForm() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            const passwordPattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+
+            // Get the error elements
+            const error = document.getElementById('error');
+
+            if (password !== confirmPassword) {
+                error.textContent = "Passwords do not match.";
+                return false;
+            }
+
+            if (!passwordPattern.test(password)) {
+                error.textContent = "Password should be at least 8 characters long and contain at least one letter, one number, and one special character.";
+                return false;
+            }
+
+            if (phone.length !== 10 || isNaN(phone)) {
+                error.textContent = "Invalid phone number. Please enter a 10-digit phone number.";
+                return false;
+            }
+
+            if (!validateEmail(email)) {
+                error.textContent = "Invalid email address. Please enter a valid email address.";
+                return false;
+            }
+
+            return true;
+        }
+
+        // Function to validate email address using regular expression
+        function validateEmail(email) {
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailPattern.test(email);
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

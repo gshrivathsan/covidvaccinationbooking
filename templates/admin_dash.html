@@ -1,0 +1,686 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <title>Vaccination Booking</title>
+
+    <style>
+        body.light {
+            background-color: #fff;
+            color: #000000;
+        }
+
+        .navbar {
+            background-color: #fff;
+        }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#image").show();
+            $("#graphics").show();
+            $("#admin_details").hide();
+            $("#center_details").hide();
+            $("#user_details").hide();
+            $("#slots_details").hide();
+            $("#time_details").hide();
+            $('a.delete-admin').click(function (event) {
+                event.preventDefault();
+
+                var adminId = $(this).attr('href').split('/').pop();
+                var confirmation = confirm('Are you sure you want to delete Admin?');
+                if (confirmation) {
+                    $.post('/admin/remove/' + adminId, function (data) {
+                        location.reload();
+                    });
+                }
+            });
+            $('a.delete-user').click(function (event) {
+                event.preventDefault();
+
+                var adminId = $(this).attr('href').split('/').pop();
+                var confirmation = confirm('Are you sure you want to delete User?');
+                if (confirmation) {
+                    $.post('/admin/remove_user/' + adminId, function (data) {
+                        location.reload();
+                    });
+                }
+            });
+            $('a.edit-time').click(function (event) {
+                event.preventDefault();
+                var adminId = $(this).attr('href').split('/').pop();
+                var confirmation = prompt('Enter the Slot timing.', '09:00 AM - 09:30 AM');
+                if (confirmation) {
+                    $.post('/admin/edit_time/' + adminId, { slot_timing: confirmation }, function (data) {
+                        location.reload();
+                    });
+                }
+            });
+            $('a.delete-center').click(function (event) {
+                event.preventDefault();
+                var centerId = $(this).attr('href').split('/').pop();
+                var confirmation = confirm('Are you sure you want to delete?');
+                if (confirmation) {
+                    $.post('/admin/remove_center/' + centerId, function (data) {
+                        location.reload();
+                    });
+                }
+            });
+           $("#admin").click(function(){
+                $("#admin_details").show();
+                $("#image").hide();
+                $("#graphics").hide();
+                $("#center_details").hide();
+                $("#user_details").hide();
+                $("#slots_details").hide();
+                $("#time_details").hide();
+           });
+           $("#center").click(function(){
+                $("#center_details").show();
+                $("#image").hide();
+                $("#graphics").hide();
+                $("#admin_details").hide();
+                $("#user_details").hide();
+                $("#slots_details").hide();
+                $("#time_details").hide();
+           });
+           $("#user").click(function(){
+                $("#user_details").show();
+                $("#image").hide();
+                $("#graphics").hide();
+                $("#admin_details").hide();
+                $("#center_details").hide();
+                $("#slots_details").hide();
+                $("#time_details").hide();
+           });
+           $("#slots").click(function(){
+                $("#slots_details").show();
+                $("#image").hide();
+                $("#graphics").hide();
+                $("#admin_details").hide();
+                $("#center_details").hide();
+                $("#user_details").hide();
+                $("#time_details").hide();
+           });
+           $("#time").click(function(){
+                $("#graphics").hide();
+                $("#image").hide();
+                $("#time_details").show();
+                $("#admin_details").hide();
+                $("#center_details").hide();
+                $("#user_details").hide();
+                $("#slots_details").hide();
+           });
+
+        });
+    </script>
+</head>
+
+<body class="light">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <b><a class="navbar-brand">Welcome to Dashboard</a></b>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a id="admin" type="button">Admin Details</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </li>
+      <li class="nav-item">
+        <a id="center" type="button">Vaccination Center Details</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </li>
+      <li class="nav-item dropdown">
+       <a id="user"  type="button">User Details</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </li>
+      <li class="nav-item">
+        <a id="slots"  type="button">All Slots Details</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </li>
+<li class="nav-item">
+            <a id="time" type="button">Slots Timing</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </li>
+        <li class="nav-item mr-sm-5">
+      <a type="button" onclick="location.href='/logout'">Logout</a>
+      </li>
+    </ul>
+
+  </div>
+</nav>
+
+<div id="graphics" class="cont">
+
+    <h2>Covid Vaccination</h2>
+
+<p class="type">To bring this pandemic to an end, a large share of the world needs to be immune to the virus. The safest way to achieve this is with a vaccine.Vaccines are a technology that humanity has often relied on in the past to bring down the death toll of infectious diseases.</p>
+
+<p class="type">Within less than 12 months after the beginning of the pandemic, several research teams rose to the challenge and developed vaccines that protect from SARS-CoV-2.</p>
+
+<p class="type">The challenge is to make these vaccines available to people around the world. It will be key that people in all countries — not just in rich countries — receive the required protection. To track this effort we at Our World in Data are building the international vaccination dataset that we make available on this page.</p>
+<img src="/static/admin_dash.gif" alt="Image" class="image">
+</div>
+
+    <br><br>
+    <div class="container" id="admin_details">
+        <div class="card text-center bg-secondary">
+            <div class="card-header text-dark bg-light">
+                <h2>Add Admin</h2>
+            </div>
+            <div class="card-body text-white bg-secondary mb-3">
+
+                <form action="/admin/add_admin" method="POST">
+                    <div class="d-grid gap-2 d-md-flex justify-content-center">
+                        <input class="form-control me-2" name="name" type="text" required placeholder="name">
+                        <input class="form-control me-2" name="email" type="email" required placeholder="email-id">
+                        <input class="form-control me-2" name="password" type="password" required placeholder="password">
+                        <input class="form-control me-2" name="ph_no" type="number" required placeholder="phone number">
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary">Add Admin</button>
+                </form>
+            </div>
+
+            <div class="card-footer">
+                <h4>Results</h4>
+                <br>
+
+                <form id="search-form">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control search-input" placeholder="Search by name or email-id.">
+                        <button type="button" class="btn btn-primary search-button">Search</button>
+                    </div>
+                </form>
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Email-Id</th>
+                            <th>Phone No</th>
+                            <th>Remove Admin</th>
+
+                        </tr>
+                    </thead>
+                    <tbody class="table-primary">
+                        {% for row in table_data %}
+                        <tr>
+                            <td>{{ row[0] }}</td>
+                            <td>{{ row[1] }}</td>
+                            <td>{{ row[2] }}</td>
+                            <td>{{ row[4]}}</td>
+                            <td>
+                                <a href="/admin/remove/{{ row[0] }}" class="delete-admin">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </td>
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Vaccination Center Details -->
+    
+    <div class="container" id="center_details">
+        <div class="card text-center bg-secondary">
+            <div class="card-header text-dark bg-light">
+                <h2>Add Vaccination Center's</h2>
+            </div>
+            <div class="card-body text-white bg-secondary mb-3">
+                <form action="/admin/add_center" method="POST">
+                    <div class="d-grid gap-2 d-md-flex justify-content-center">
+                        <input class="form-control me-2" name="center_name" type="text" required placeholder="Center Name">
+                        <input class="form-control me-2" name="place" type="text" required placeholder="Place">
+                        <input class="form-control me-2" name="working_hour" type="number" required placeholder="Working Hours">
+                        <input class="form-control me-2" name="dosage" type="number" required placeholder="Dosage Available">
+                        <input class="form-control me-2" name="slots" type="number" required placeholder="No of slots/day">
+                        <input class="form-control me-2" name="per_slot" type="number" required placeholder="No of vaccines/slots">
+                        <input class="form-control me-2" name="vacc_name" type="text" required placeholder="Vaccine Name">
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary">Add Center</button>
+                </form>
+            </div>
+
+            <div class="card-footer">
+                <h4>Total Centers</h4>
+                <br>
+                <form id="search-form2">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control search-input" placeholder="Search by center name, place, working hours, or dosage">
+                        <button type="button" class="btn btn-primary search-button">Search</button>
+                    </div>
+                </form>
+
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Center Id</th>
+                            <th>Center Name</th>
+                            <th>Place</th>
+                            <th>Working Hours</th>
+                            <th>Dosage</th>
+                            <th>Slots/day</th>
+                            <th>Vaccines/slots</th>
+                            <th>Vaccine Name</th>
+                            <th>Admin Name</th>
+                            <th>Remove Center</th>
+
+                        </tr>
+                    </thead>
+                    <tbody class="table-primary">
+                        {% for row in table_data2 %}
+                        <tr>
+                            <td>{{ row[0] }}</td>
+                            <td>{{ row[1] }}</td>
+                            <td>{{ row[2] }}</td>
+                            <td>{{ row[3] }} hours</td>
+                            <td>{{ row[4] }}</td>
+                            <td>{{ row[5] }}</td>
+                            <td>{{ row[7] }}</td>
+                            <td>{{ row[8] }}</td>
+                            <td>{{ row[11] }}</td>
+                            <td>
+                                <a href="/admin/remove_center/{{ row[0] }}" class="delete-center">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    
+    <div class="container" id="user_details">
+        <div class="card text-center bg-secondary">
+            <div class="card-header text-dark bg-light">
+                <h2>Add/Remove a User</h2>
+            </div>
+            <div class="card-body text-white bg-secondary mb-3">
+                <form action="/admin/add_user" method="POST">
+                    <div class="d-grid gap-2 d-md-flex justify-content-center">
+                        <input class="form-control me-2" name="name" type="text" required placeholder="name">
+                        <input class="form-control me-2" name="email" type="email" required placeholder="email-id">
+                        <input class="form-control me-2" name="password" type="password" required placeholder="password">
+                        <input class="form-control me-2" name="ph_no" type="number" required placeholder="phone number">
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary">Add User</button>
+                </form>
+            </div>
+
+            <div class="card-footer">
+                <h4>Results</h4>
+                <br>
+                <form id="search-form-user">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control search-input" placeholder="Search by name or email-id.">
+                        <button type="button" class="btn btn-primary search-button">Search</button>
+                    </div>
+                </form>
+
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Email-Id</th>
+                            <th>Phone No</th>
+                            <th>Wallet Amount</th>
+                            <th>Remove User</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-primary">
+                        {% for row in table_data3 %}
+                        <tr>
+                            <td>{{ row[0] }}</td>
+                            <td>{{ row[1] }}</td>
+                            <td>{{ row[2] }}</td>
+                            <td>{{ row[4]}}</td>
+                            <td>{{ row[7]}}</td>
+                            <td>
+                                <a href="/admin/remove_user/{{ row[0] }}" class="delete-user">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container" id="slots_details">
+        <div class="card text-center bg-secondary">
+            <div class="card-header text-dark bg-light">
+                <h2>Edit/View Slot Bookings</h2>
+            </div>
+            <div class="card-body text-white bg-secondary mb-3">
+                <div class="d-grid gap-2 d-md-flex justify-content-center">
+                    <form action="/admin/dashboard" method="POST" class="d-grid gap-2 d-md-flex justify-content-center">
+                    
+                            <div class="dropdown">
+                                <label for="center">Center Name:</label>
+                                <select name="center" id="center" class="form-select">
+                                    <option value="No Filter" selected>No Filter</option>
+                                    {% for center in centers %}
+                                    <option value="{{ center[0] }}">{{ center[0] }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="dropdown">
+                                <label for="place">Place</label>
+                                <select name="place" id="place" class="form-select">
+                                    <option value="No Filter" selected>No Filter</option> <!-- Added default option -->
+                                    {% for place in places %}
+                                    <option value="{{ place[0] }}">{{ place[0] }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="dropdown">
+                                <label for="hour">Slot Time</label>
+                                <select name="hour" id="hour" class="form-select">
+                                    <option value="No Filter" selected>No Filter</option> <!-- Added default option -->
+                                    {% for hour in hours %}
+                                    <option value="{{ hour[0] }}">{{ hour[0] }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="dropdown">
+                                <label for="date">Date</label>
+                                <select name="date" id="date" class="form-select">
+                                    <option value="No Filter" selected>No Filter</option> <!-- Added default option -->
+                                    {% for date in dates %}
+                                    <option value="{{ date[0] }}">{{ date[0] }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <br>
+                            <button type="submit" class="btn btn-primary">Search Now</button>
+                    </form>
+                </div>
+                  
+            </div>
+            <div class="card-footer">
+                <h4>Results</h4>
+                <br>
+                <form id="search-form-slots">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control search-input" placeholder="Search by name or email-id.">
+                        <button type="button" class="btn btn-primary search-button">Search</button>
+                    </div>
+                </form>
+
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Booking Id</th>
+                            <th>Center Name</th>
+                            <th>Place</th>
+                            <th>User Name</th>
+                            <th>Slot Time</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Remove Slot</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-primary">
+                        {% for row in table_data5 %}
+                            <tr>
+                                <td>{{row[0]}}</td>
+                                <td>{{row[2]}}</td>
+                                <td>{{row[9]}}</td>
+                                <td>{{ row[4] }}</td>
+                                <td>{{ row[6] }}</td>
+                                <td>{{ row[8] }}</td>
+                                {% if row[7]==0 %}
+                                    <td>Not Booked</td>
+                                {% elif row[7]==1 %}
+                                    <td>Booked</td>
+                                {% else %}
+                                    <td>Cancelled</td>
+                                {% endif %}
+                                <td>
+                                     <a href="/admin/remove_time/{{ row[0] }}" class="delete-user">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="container" id="time_details">
+        <div class="card text-center bg-secondary">
+            <div class="card-header text-dark bg-light">
+                <h2>Add/Edit Slot Timings</h2>
+            </div>
+            <div class="card-footer">
+                <h4>Results</h4>
+                <br>
+
+                <form id="search-form-time">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control search-input" placeholder="Search by name or email-id.">
+                        <button type="button" class="btn btn-primary search-button">Search</button>
+                    </div>
+                </form>
+
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Center Name</th>
+                            <th>Slots</th>
+                            <th>Timings</th>
+                            <th>Edit Time</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-primary">
+                        {% for rows in table_data4 %}
+                            {% for row in rows %}
+                            <tr>
+                                <td>{{row[2]}}</td>
+                                <td>Slot {{ loop.index }}</td>
+                                <td>{{ row[3] }}</td>
+                                <td>
+                                    <a href="/admin/edit_time/{{ row[0] }}" class="edit-time">
+                                        <i class="fas fa-marker"></i>
+                                    </a>
+                                </td>
+
+                            </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    
+    <br><br>
+
+
+    <script>
+        const searchButtons = document.querySelectorAll('.search-button');
+        const searchInputs = document.querySelectorAll('.search-input');
+        const tableBodies = document.querySelectorAll('.table-primary');
+
+        searchButtons.forEach(function (button, index) {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+                const searchValue = searchInputs[index].value.toLowerCase();
+                const tableRows = tableBodies[index].querySelectorAll('tr');
+
+                tableRows.forEach(function (row) {
+                    const rowData = row.innerHTML.toLowerCase();
+                    if (rowData.includes(searchValue)) {
+                    row.style.display = "";
+                    }  else {
+                        row.style.display = "none";
+                    }
+                });
+            });
+        });
+    </script>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha384-KI0tF2X3Q61p0gFsKj/Ed8BjAm4bgk/jrLpgf8HzcmXlYB7H96q8I5tc+q5QKWDD"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.bundle.min.js"
+        integrity="sha384-RfwDRf2X4UCZB2jTRkoVjztbBA8OwrNniB/9J0ZUmfD8HDnL+hZ3wOIdV/OYLqy9"
+        crossorigin="anonymous"></script>
+</body>
+<style>
+
+.image{
+    display : flex;
+    flex-direction : row-reverse;
+    margin-left : 30em;
+    margin-top : -27em
+}
+     @keyframes letters {
+	 from {
+		 left: 0;
+	}
+	 to {
+		 left: 50ch;
+	}
+}
+ @keyframes lines {
+	 from {
+		 top: 0;
+	}
+	 to {
+		 top: 100%;
+	}
+}
+ @keyframes cursor-type {
+	 50% {
+		 border-color: #000;
+	}
+}
+ @keyframes cursor-wait {
+	 0% {
+		 box-shadow: inset 2px 0 0 0 rgba(0, 0, 0, 0);
+	}
+	 1% {
+		 box-shadow: inset 2px 0 0 0 rgba(0, 0, 0, 1);
+	}
+	 40% {
+		 box-shadow: inset 2px 0 0 0 rgba(0, 0, 0, 1);
+	}
+}
+ .type {
+	 position: relative;
+	 font-family: Consolas, Monaco, monospace;
+	 width: 50ch;
+	 line-height: 1.2;
+	 word-break: break-all;
+	 overflow: hidden;
+}
+ @supports (width: 1ch) {
+	 .type:before, .type:after {
+		 box-sizing: border-box;
+		 content: '';
+		 position: absolute;
+		 z-index: 1;
+		 display: block;
+		 height: 1.2em;
+		 width: 100%;
+		 background-color: #fff;
+	}
+	 .type:before {
+		 border-left: 2px solid transparent;
+		 top: 100%;
+		 animation-name: letters, lines, cursor-type, cursor-wait;
+		 animation-fill-mode: both, both, both, backwards;
+	}
+	 .type:after {
+		 content: '';
+		 height: 100%;
+		 top: 100%;
+		 left: 0;
+		 margin-top: 1.2em;
+	}
+}
+ .type:before {
+	 animation-duration: 1.4285714286s, 1.4285714286s, 0.0285714286s, 0.8s;
+	 animation-timing-function: steps(50, end), steps(1, end), step-end, ease-out;
+	 animation-iteration-count: 1, 1, 35, 2;
+	 animation-delay: 1.6s, 1.6s, 1.6s, 0s;
+}
+ .type:after {
+	 animation: lines 1.4285714286s steps(1, end) 1;
+	 animation-fill-mode: both;
+	 animation-delay: 1.6s;
+}
+ .type + .type:before {
+	 animation-duration: 1.4285714286s, 5.7142857143s, 0.0285714286s, 0.8s;
+	 animation-timing-function: steps(50, end), steps(4, end), step-end, ease-out;
+	 animation-iteration-count: 4, 1, 181, 2;
+	 animation-delay: 4.2s, 4.2s, 4.2s, 2.6s;
+}
+ .type + .type:after {
+	 animation: lines 5.7142857143s steps(4, end) 1;
+	 animation-fill-mode: both;
+	 animation-delay: 4.2s;
+}
+ .type + .type + .type:before {
+	 animation-duration: 1.4285714286s, 4.2857142857s, 0.0285714286s, 0.8s;
+	 animation-timing-function: steps(50, end), steps(3, end), step-end, ease-out;
+	 animation-iteration-count: 3, 1, 120, 2;
+	 animation-delay: 10.9714285714s, 10.9714285714s, 10.9714285714s, 9.3714285714s;
+}
+ .type + .type + .type:after {
+	 animation: lines 4.2857142857s steps(3, end) 1;
+	 animation-fill-mode: both;
+	 animation-delay: 10.9714285714s;
+}
+ .type + .type + .type + .type:before {
+	 animation-duration: 1.4285714286s, 7.1428571429s, 0.0285714286s, 0.8s;
+	 animation-timing-function: steps(50, end), steps(5, end), step-end, ease-out;
+	 animation-iteration-count: 5, 1, 215, 2;
+	 animation-delay: 16s, 16s, 16s, 14.4s;
+}
+ .type + .type + .type + .type:after {
+	 animation: lines 7.1428571429s steps(5, end) 1;
+	 animation-fill-mode: both;
+	 animation-delay: 16s;
+}
+
+</style>
+
+</html>
