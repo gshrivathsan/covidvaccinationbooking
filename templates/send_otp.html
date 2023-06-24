@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Send OTP</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="icon" href="https://static.vecteezy.com/system/resources/previews/009/221/366/original/injection-vaccine-icon-filled-line-syringe-and-drugs-bottle-logo-medicine-and-healthcare-design-symbol-illustration-free-vector.jpg" type="image/icon type">
+  <style>
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>Send OTP</h1>
+    <form action="/otp_generate" method="post">
+      <div class="form-group">
+        <input type="text" name="phone_number" class="form-control" placeholder="Phone Number (+91)*" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Send OTP</button>
+    </form>
+  </div>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

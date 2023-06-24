@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="https://static.vecteezy.com/system/resources/previews/009/221/366/original/injection-vaccine-icon-filled-line-syringe-and-drugs-bottle-logo-medicine-and-healthcare-design-symbol-illustration-free-vector.jpg" type="image/icon type">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <title>Vaccination Booking</title>
+
+    <style>
+     @import url('https://fonts.googleapis.com/css2?family=Lobster&family=Patua+One&family=Rubik:wght@300&family=Sniglet&display=swap');
+
+        body.light {
+            background-color: #fff;
+            color: #000000;
+        }
+        * {
+        box-sizing: border-box;
+        }
+
+    :root {
+    --Rubik: "Rubik", cursive;
+    --Patua: "Patua One", cursive;
+    --Lobster: "lobster", cursive;
+    --light-black: #2e2c2caf;
+    --light-gray: rgba(255, 255, 255, 0.877);
+    }
+    .section-1 {
+    padding: 0 0;
+}
+
+.section-1 .row .col-md-6 .pray img {
+    opacity: 0.8;
+    width: 80%;
+    border-radius: 0.2em;
+    background-image: url('/static/home_bg.jpg');
+}
+
+.results{
+    padding:10px;
+    margin-top: 3em;
+}
+.section-1 .row .col-md-6:last-child {
+    position: relative;
+}
+
+.section-1 .row .col-md-7 .panel {
+    position: relative;
+    top: 7vmin;
+    left: -15vmin;
+    background: white;
+    border-radius: 3px;
+    text-align: left;
+    padding: 13vmin 5vmin 20vmin 10vmin;
+    box-shadow: 0px 25px 42px rgba(0, 0, 0, 0.2);
+    font-family: var(--Rubik);
+    z-index: 1;
+}
+
+.section-1 .row .col-md-7 .panel h1 {
+    font-weight: bold;
+    padding: 0.4em 0;
+    font-size: 2em;
+}
+
+.section-1 .row .col-md-7 .panel p {
+    font-size: 0.9em;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script>
+        $(document).ready(function () {
+             $("#graphics").show();
+            $("#admin_details").hide();
+            $("#center_details").hide();
+            $("#user_details").hide();
+            $("#slots_details").hide();
+            $("#time_details").hide();
+            $("#dosage_details").hide();
+            $('a.delete-admin').click(function (event) {
+                event.preventDefault();
+
+                var adminId = $(this).attr('href').split('/').pop();
+                var confirmation = confirm('Are you sure you want to delete Admin?');
+                if (confirmation) {
+                    $.post('/admin/remove/' + adminId, function (data) {
+                        location.reload();
+                    });
+                }
+            });
+            $('a.delete-user').click(function (event) {
+                event.preventDefault();
+
+                var adminId = $(this).attr('href').split('/').pop();
+                var confirmation = confirm('Are you sure you want to delete User?');
+                if (confirmation) {
+                    $.post('/admin/remove_user/' + adminId, function (data) {
+                        location.reload();
+                    });
+                }
+            });
+            $('a.edit-time').click(function (event) {
+                event.preventDefault();
+                var adminId = $(this).attr('href').split('/').pop();
+                var confirmation = prompt('Enter the Slot timing.', '09:00 AM - 09:30 AM');
+                if (confirmation) {
+                    $.post('/admin/edit_time/' + adminId, { slot_timing: confirmation }, function (data) {
+                        location.reload();
+                    });
+                }
+            });
+            $('a.delete-center').click(function (event) {
+                event.preventDefault();
+                var centerId = $(this).attr('href').split('/').pop();
+                var confirmation = confirm('Are you sure you want to delete?');
+                if (confirmation) {
+                    $.post('/admin/remove_center/' + centerId, function (data) {
+                        location.reload();
+                    });
+                }
+            });
+           var sections = {
+    "admin": "#admin_details",
+    "center": "#center_details",
+    "user": "#user_details",
+    "slots": "#slots_details",
+    "time": "#time_details",
+    "dosage": "#dosage_details"
+  };
+ $("#admin, #center, #user, #slots, #time, #dosage").click(function() {
+    var id = $(this).attr("id");
+
+    $("#graphics, #admin_details, #center_details, #user_details, #slots_details, #time_details, #dosage_details").hide();
+    $(sections[id]).show();
+  });
+});
+    </script>
+</head>
+
+<body class="light">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <b><a class="navbar-brand">Welcome</a></b>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a id="admin" href="/admin/dashboard" type="button">Admin Details</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </li>
+      <li class="nav-item">
+        <a id="center" href="#" type="button">Vaccination Center Details</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </li>
+      <li class="nav-item dropdown">
+       <a id="user"  type="button">User Details</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </li>
+      <li class="nav-item">
+        <a id="slots"  type="button">All Slots Details</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </li>
+<li class="nav-item">
+            <a id="time" type="button">Slots Timing</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </li>
+        <li class="nav-item">
+       <a id="dosage" type="button">Dosage</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </li>
+    </ul>
+      <li class="navbar-nav mr-auto d-flex">
+          <a type="button" onclick="location.href='/logout'">Logout</a>
+      </li>
+
+  </div>
+</nav>
+<br><br>
+
+
+    <div class="container" id="center_details">
+        <div class="card text-center bg-light">
+            <div class="card-header text-dark bg-light">
+                <h2>Add Vaccination Center</h2>
+            </div>
+            <div class="card-body text-white bg-light mb-3">
+                <form action="/admin/add_center" method="POST">
+                    <div class="d-grid gap-2 d-md-flex justify-content-center">
+                        <input class="form-control me-2" name="center_name" type="text" required placeholder="Center Name">
+                        <input class="form-control me-2" name="place" type="text" required placeholder="Place">
+                        <input class="form-control me-2" name="working_hour" type="number" required placeholder="Working Hours">
+                        <input class="form-control me-2" name="dosage" type="number" required placeholder="Dosage Available">
+                        <input class="form-control me-2" name="slots" type="number" required placeholder="No of slots/day">
+                        <input class="form-control me-2" name="per_slot" type="number" required placeholder="No of vaccines/slots">
+                        <input class="form-control me-2" name="vacc_name" type="text" required placeholder="Vaccine Name">
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary">Add Center</button>
+                </form>
+            </div><br><br>
+        </div>
+        <div class="card text-center bg-light results">
+            <div>
+                <h4>Total Centers</h4>
+                <br>
+                <form id="search-form2">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control search-input" placeholder="Search by center name, place, working hours, or dosage">
+                        <button type="button" class="btn btn-primary search-button">Search</button>
+                    </div>
+                </form>
+
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Center Id</th>
+                            <th>Center Name</th>
+                            <th>Place</th>
+                            <th>Working Hours</th>
+                            <th>Dosage</th>
+                            <th>Slots/day</th>
+                            <th>Vaccines/slots</th>
+                            <th>Vaccine Name</th>
+                            <th>Remove Center</th>
+
+                        </tr>
+                    </thead>
+                    <tbody class="table-primary">
+                        {% for row in table_data2 %}
+                        <tr>
+                            <td>{{ row[0] }}</td>
+                            <td>{{ row[1] }}</td>
+                            <td>{{ row[2] }}</td>
+                            <td>{{ row[3] }} hours</td>
+                            <td>{{ row[4] }}</td>
+                            <td>{{ row[5] }}</td>
+                            <td>{{ row[7] }}</td>
+                            <td>{{ row[8] }}</td>
+                            <td>
+                                <a href="/admin/remove_center/{{ row[0] }}" class="delete-center">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const searchButtons = document.querySelectorAll('.search-button');
+        const searchInputs = document.querySelectorAll('.search-input');
+        const tableBodies = document.querySelectorAll('.table-primary');
+
+        searchButtons.forEach(function (button, index) {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+                const searchValue = searchInputs[index].value.toLowerCase();
+                const tableRows = tableBodies[index].querySelectorAll('tr');
+
+                tableRows.forEach(function (row) {
+                    const rowData = row.innerHTML.toLowerCase();
+                    if (rowData.includes(searchValue)) {
+                    row.style.display = "";
+                    }  else {
+                        row.style.display = "none";
+                    }
+                });
+            });
+        });
+    </script>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha384-KI0tF2X3Q61p0gFsKj/Ed8BjAm4bgk/jrLpgf8HzcmXlYB7H96q8I5tc+q5QKWDD"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.bundle.min.js"
+        integrity="sha384-RfwDRf2X4UCZB2jTRkoVjztbBA8OwrNniB/9J0ZUmfD8HDnL+hZ3wOIdV/OYLqy9"
+        crossorigin="anonymous"></script>
+</body>
+<style>
+
+
+</style>
+
+</html>
