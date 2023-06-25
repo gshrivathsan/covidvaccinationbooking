@@ -55,7 +55,21 @@
      ● Admin and Users have separate login/logout.
      ● Admin can add/view/remove vaccination centers.
      ● Admin can view/remove the registered users.
+     ● User can signup - an OTP will be sent to their mobile number and validated.
      ● Users can book a slot.
      ● Users can view their booking history.
      ● Both admin and users can search for a vaccination center/ working hours.
+     ● Twilio is used to generate OTP through SMS. (Note: Since its a trial account auth token should be updated every 24 hours and the mobile number should be verified at         Twilio before sending an OTP.)
+
+### Admin Credentials
+    ● User id : shrisampleworkspace@gmail.com
+    ● Password : x)nDDCDQf8AZy+GF
+    ● Admin signup route: https://shrivathsang.pythonanywhere.com/admin/signup
+
+## Flask Web Application
+
+    ● Hosted using pythonanywhere.
+    ● Link : https://shrivathsang.pythonanywhere.com/
+    
+
 
