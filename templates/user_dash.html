@@ -308,12 +308,12 @@
                             <tbody class="table-primary">
                                 {% for row in user_history %}
                                 <tr>
-                                    {% if row[6] != None and row[9]==1 %}
+                                    {% if row[8] != None and row[9]==1 %}
                                     <td>{{ row[0] }}</td>
                                     <td>{{ row[5] }}</td>
                                     <td>{{ row[6]}}</td>
+                                    <td>{{ row[7] }}</td>
                                     <td>{{ row[8] }}</td>
-                                    <td>{{ row[9] }}</td>
                                     {% endif %}
                                 </tr>
                                 
