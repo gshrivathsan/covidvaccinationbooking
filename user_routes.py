@@ -9,7 +9,7 @@ import bcrypt
 
 user_bp = Blueprint('user', __name__)
 account_sid = 'AC9e7afa8cac2bf723d775a4490bed7f21'
-auth_token = '188d56141fcabcc0b11959ca2ab8fa53'
+auth_token = 'a15a3a6a1146814c63fa38dd0f168d81'
 twilio_phone_number = '+15417222908'
 otp_store = {}
 
