@@ -59,7 +59,7 @@
      ● Users can book a slot.
      ● Users can view their booking history.
      ● Both admin and users can search for a vaccination center/ working hours.
-     ● Twilio is used to generate OTP through SMS. (Note: Since its a trial account auth token should be updated every 24 hours and the mobile number should be verified at         Twilio before sending an OTP.)
+     ● Twilio is used to generate OTP through SMS. (Note: Since its a trial account auth token should be updated every 24 hours and the mobile number should be verified at Twilio before sending an OTP.)
 
 ### Admin Credentials
     ● User id : shrisampleworkspace@gmail.com
